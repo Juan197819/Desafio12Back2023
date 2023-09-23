@@ -1,5 +1,6 @@
 import {createTransport} from 'nodemailer'
 import config from './configEnv.js';
+import logger from './configWinston.js';
 
 const transport = createTransport({
     service:'gmail',
@@ -18,9 +19,9 @@ async function sendEmail (subject, bodyMail){
             html: purchaseData(bodyMail)
             }       
         )
-        console.log(info);
+        logger.info(JSON.stringify(info))
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 }
 export const purchaseData = (purchaseData) => {

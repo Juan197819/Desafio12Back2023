@@ -1,7 +1,6 @@
 import {Router} from 'express'
 import {controllerProducts} from '../controllers/controllerProducts.js'
 import { validationFieldsDates } from '../middleware/validationFieldsDates.js'
-import { schemaProducts } from '../daos/MongoDB/models/modelProducts.js'
 
 export const routerProducts = Router()
 

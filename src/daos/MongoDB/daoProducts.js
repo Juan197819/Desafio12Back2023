@@ -1,3 +1,4 @@
+import logger from "../../config/configWinston.js"
 import { errorCustom } from "../../middleware/errorHandler.js"
 import { ModelProducts } from "./models/modelProducts.js"
 
@@ -20,9 +21,8 @@ class DaoProducts {
      */
     async getProducts(limit = 10, page = 1, sort, query = {}) {
         try {
-            console.log('sort', sort, 'limit', limit, 'page', page, 'query',query)
+            logger.debug(`Detalle de queryes pasadas: sort: ${sort}, limit: ${limit}, page: ${page}, query: ${JSON.stringify(query)}`)
             const order = sort == 1 || sort==-1 ? { price: sort } : null
-            console.log(order)
             const response = await ModelProducts.paginate(query,{page,limit, sort:order})
             /**
              *  la Variable "search" se usa para tomar todos los campos de filtro guardados en "query" (que vienen de los query params) y armar las rutas de "prevLink" y "nextLink" del objeto "newResponse" con los mismos filtros de la primer peticion.
@@ -57,7 +57,7 @@ class DaoProducts {
             if (!product) throw new errorCustom('Not Found', 404, `Product ID ${id} not found, failed product search`)
             return product
         } catch (error) {
-            if (error.name == 'CastError') throw new errorCustom('Bad Request', 400, 'Error in product search: incorrect id format', error) 
+            // if (error.name == 'CastError') throw new errorCustom('Bad Request', 400, 'Error in product search: incorrect id format', error) 
             throw (error)   
         }
     }

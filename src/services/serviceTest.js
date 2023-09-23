@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker'
+import { loggerDev, loggerProd } from '../config/configWinston.js'
 
 class ServiceTest {
-    async serviceTestMock(qty) {
+    async serviceTestMock(qty=5) {
         try {
             let arrayProduct =[]
             for (let i = 0; i < qty; i++) {
@@ -18,6 +19,25 @@ class ServiceTest {
                 arrayProduct.push(product)
             }
             return arrayProduct
+        } catch (error) {
+            throw error
+        }
+    }
+    async serviceTestLogger() {
+        try {
+            loggerDev.fatal('Prueba de Mensaje con nivel fatal LOGGER DESARROLLO')
+            loggerDev.error('Prueba de Mensaje con nivel error LOGGER DESARROLLO')
+            loggerDev.warning('Prueba de Mensaje con nivel warning LOGGER DESARROLLO')
+            loggerDev.info('Prueba de Mensaje con nivel info LOGGER DESARROLLO')
+            loggerDev.http('Prueba de Mensaje con nivel http LOGGER DESARROLLO')
+            loggerDev.debug('Prueba de Mensaje con nivel debug LOGGER DESARROLLO')
+            loggerProd.fatal('Prueba de Mensaje con nivel fatal LOGGER PRODUCCION')
+            loggerProd.error('Prueba de Mensaje con nivel error LOGGER PRODUCCION')
+            loggerProd.warning('Prueba de Mensaje con nivel warning LOGGER PRODUCCION')
+            loggerProd.info('Prueba de Mensaje con nivel info LOGGER PRODUCCION')
+            loggerProd.http('Prueba de Mensaje con nivel http LOGGER PRODUCCION')
+            loggerProd.debug('Prueba de Mensaje con nivel debug LOGGER PRODUCCION')
+            return 
         } catch (error) {
             throw error
         }

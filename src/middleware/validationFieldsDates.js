@@ -29,7 +29,6 @@ function evalFieldsWithSchemaMongo(objBody, { paths }) {
 }
 export function validationFieldsDates(req, res, next) {
     let schemaValidation
-    console.log(req.baseUrl)
 
     if (req.baseUrl =='/api/products') schemaValidation = schemaProducts
     if (req.baseUrl == '/api/sessions') schemaValidation = schemaUsers

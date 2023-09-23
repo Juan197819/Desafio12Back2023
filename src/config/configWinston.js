@@ -17,53 +17,46 @@ const confiLevels = {
         warning:'yellow bold',
         info:'green bold',
         http:'blue bold',
-        debug:'grey strikethrough'
+        debug:'grey'
     }
 }
 
-const loggerDev = winston.createLogger({
+export const loggerDev = winston.createLogger({
     levels: confiLevels.levels,
     transports: [
         new winston.transports.Console({
             level: 'debug',
             format: format.combine(
-                format.timestamp({format: 'MM-DD-YYYY HH:MM:SS'}),
-                format.printf(info=>`[${info.level}] | ${info.timestamp} | ${info.message}`),
-                format.colorize({ all: true, colors: confiLevels.colors, timestamp: true }),
+                format.timestamp({format: 'DD-MM-YYYY HH:MM:SS'}),
+                format.printf(info =>`[${info.level}] | ${info.timestamp} | ${info.message}`),
+                format.colorize({ all: true, colors: confiLevels.colors}),
             )    
         })
     ]
 })
-const loggerProd = winston.createLogger({
+export const loggerProd = winston.createLogger({
     levels: confiLevels.levels,
     transports: [
         new winston.transports.Console({ 
             level: "info",
             format: format.combine(
-                format.timestamp({ format: 'MM-DD-YYYY HH:MM:SS' }),
+                format.timestamp({ format: 'DD-MM-YYYY HH:MM:SS' }),
                 format.printf(info => `[${info.level}] | ${info.timestamp} | ${info.message}`),
                 format.colorize({ all: true, colors: confiLevels.colors, timestamp: true }),
                     )
-                }
-                ),
+        }),
         new winston.transports.File({
             filename: __dirname +'/src/logs/errors.log', 
             level: "error",
             format: format.combine(
-                format.timestamp({ format: 'MM-DD-YYYY HH:MM:SS' }),
+                format.timestamp({ format: 'DD-MM-YYYY HH:MM:SS' }),
                 format.printf(info => `[${info.level}] | ${info.timestamp} | ${info.message}`),
             )    
         }), 
     ]
 })
 
-let logger = loggerProd
+let logger = loggerDev
 if (config.NODE_ENV == 'production') logger = loggerProd
 
-logger.fatal(__dirname + '/logs/errors.log');
-logger.error('mensaje con nivel warn');
-logger.warning('mensaje con nivel warn');
-logger.info('mensaje con nivel info');
-logger.http('mensaje con nivel http');
-logger.debug('mensaje con nivel debug');
 export default logger

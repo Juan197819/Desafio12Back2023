@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import { command } from './configCommander.js'
-console.log(`${process.env.NODE_ENV.toLocaleUpperCase()} environment`)
+
 export default {
     NODE_ENV: command.opts().mode ||process.env.NODE_ENV,
     PERSISTENCE: command.opts().storage || process.env.PERSISTENCE,

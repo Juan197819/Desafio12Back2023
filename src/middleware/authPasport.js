@@ -1,5 +1,4 @@
 export function authPassport(req, res, next) {
-    console.log('authpassport', req.isAuthenticated())
     if (req.isAuthenticated()) {
         next()
     } else {
@@ -12,4 +11,4 @@ export function authPassport2(req, res, next) {
     } else {
         res.status(300).redirect('/')
     }
-}
+} 

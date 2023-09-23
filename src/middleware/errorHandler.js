@@ -1,3 +1,5 @@
+import logger from "../config/configWinston.js"
+
 /**
  * Esta funcion crea un objeto de error personalizado que se lanza para ser capturado en la funcion "errorHandler".
  * @param {String} error - Nombre o tipo de Error
@@ -20,9 +22,14 @@ export function errorHandler(error, req, res, next) {
     //Al meter el error personalizado dentro de la prop. "errorCustom" puedo (con el if (!errCustom) diferenciar a los ya personalizados de los que no (inesperados) y asi darle formato a estos ultimos usando los datos del error original.
     let { errCustom, stack } = error
     if (!errCustom) {
-        let errorCompleto = (errorCustom(error.name, error.status || error.statusCode || 500, error.message))
+        let errorCompleto = (errorCustom('Internal Server Error', error.status || error.statusCode || 500, error.message, 'Type '+ error.name))
         errCustom= errorCompleto.errCustom
+        logger.error('Unexpected Internal Server Error, details: \n\n      ' + stack) 
+    } else {
+        logger.warning(`Foreseeable Error of type "${errCustom.error}": ${errCustom.message} }`) 
     }
-    console.log('Error Original', stack|| errCustom) 
     res.status(errCustom.status).json(errCustom)
 }
+process.on('uncaughtException', err => {
+    logger.fatal(`Error caught in "process.on uncaughtException", details: \n\n      ${err.stack}`)
+})

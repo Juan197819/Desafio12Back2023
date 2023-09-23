@@ -1,5 +1,6 @@
 import config from '../config/configEnv.js';
 import sendEmail from '../config/configMail.js';
+import logger from '../config/configWinston.js';
 import { dtoProduct } from '../dtos/dtoProduct.js';
 import {dtoTicket} from '../dtos/dtoTicket.js'
 const {default: daoCart} = await import(`../daos/${config.PERSISTENCE}/daoCarts.js`)
@@ -73,16 +74,15 @@ class ServiceCarts {
                 await sendEmail('Venta Online: Transacción Aprobada', { ...ticket, ...user, articleBuyed })
             }
             let message
-            let msg = `Se le ha enviado un correo a su casilla registrada ${user.email} con los datos de la compra`
+            let msg = `An email has been sent to your registered mailbox ${user.email} with the purchase information`
 
             if (!productsToBuy.length) {
-                message= `Transaccion rechazada, actualmente no hay stock de el/los producto/s solicitado/s.`
+                message = `Transaction rejected, there is currently no stock of the requested product/s.`
             } else if (productsOutOfStock.length){
-                message = `Transaccion realizada parcialmente, actualmente algun/os producto/s solicitado/s se encuentran sin stock. ${msg}`
+                message = `Transaction partially completed, currently some requested product/s are out of stock. ${msg}`
             } else {
-                message = `Transaccion completada con exito!! ${msg}`
+                message = `Transaction completed successfully!! ${msg}`
             }
-
             return {
                 message,
                 articleBuyed,

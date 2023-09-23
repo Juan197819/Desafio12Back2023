@@ -3,6 +3,7 @@ import { serviceCarts } from "../services/serviceCarts.js";
 import __dirname from "../../utils.js";
 import {io} from '../../app.js'
 import { errorCustom } from "../middleware/errorHandler.js";
+import logger from "../config/configWinston.js";
 
 class ControllerViews{
     async controllerIndex(req, res, next) {
@@ -26,7 +27,7 @@ class ControllerViews{
         try {            
             const query = { ...req.query, limit: req.query.limit || 100}
             io.on('connection', async socket=>{
-                console.log('Usuario conectado')
+                logger.info('Usuario conectado')
                 const products = await serviceProducts.serviceGetProducts(query)
                 socket.emit('messageServer', await products)
                 
@@ -90,8 +91,8 @@ class ControllerViews{
     async controllerLogout(req, res, next){
         try {
             req.session.destroy(err=>{
-                if(err) throw new errorCustom('Internal server error', 500, 'An internal error occurred in the express-session module when trying to delete the current session!')
-                console.log('Session delete!!')
+                if (err) throw new errorCustom('Internal Server Error', 500, 'An internal error occurred in the express-session module when trying to delete the current session!')
+                logger.info('Session delete!!')
                 res.status(200).redirect('/login')   
             })
         } catch (error) { 

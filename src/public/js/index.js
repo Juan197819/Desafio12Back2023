@@ -43,9 +43,7 @@ let nav
     nav = document.getElementById('nav'); 
     if (h1) {
         const email = h1.getAttribute('data-email') //EN EL H1 DEL HTML CREÉ UN data-email= {email dinamico de usuario desde variable de handlebars} Y ACA LO RECUPERO        
-        console.log(email)
         let idCart = localStorage.getItem(email) // YA CON ESE EMAIL VERIFICO SI HAY ALGUN ID DE CARRITO EN EL LOCALSTORAGE
-        console.log(idCart)
         
         nav.innerHTML = `<a id="botonCarrito" href="/carts/${idCart || "cartEmpty"}" class="botonLogout" >Ir al carrito</a>`
         //SI ES LA PRIMERA VEZ DEL USUARIO EL idCart VA A SER NULL POR ENDE LA RUTA SE ARMA CON cartEmpty
@@ -65,7 +63,7 @@ async function agregarAlCarrito(pid, email) {
          })
         let newCart = await response.json()
         idCart = newCart._id
-        console.log('idcart',idCart)
+
         //GUARDADO DE ID DE CARRITO PARA EL RESTO DE PETICIONES
         localStorage[email] = idCart
         alert('Carrito creado ok')

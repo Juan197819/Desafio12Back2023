@@ -10,5 +10,13 @@ class ControllerTests {
             next(error)
         }
     }
+    async controllerTestLogger(req, res, next) {
+        try {
+            const response = await serviceTest.serviceTestLogger()
+            res.status(200).json(response)
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 export const controllerTests = new ControllerTests()

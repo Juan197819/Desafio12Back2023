@@ -1,16 +1,18 @@
 import mongoose from "mongoose";
 import config from "../../../config/configEnv.js";
+import logger from "../../../config/configWinston.js";
+
 try {
     let url
     if (config.NODE_ENV=='development') {
         url = 'mongodb://localhost:27017/ecommerceLocal'
-        console.log('Wait...Local MongoDB database connecting...')
+        logger.http('Wait...Local MongoDB database connecting...')
     } else {
         url=config.MONGO_ATLAS
-        console.log('Wait... MongoDB ATLAS database in the cloud connecting...')
+        logger.http('Wait... MongoDB ATLAS database in the cloud connecting...')
     }
     await mongoose.connect(url)
-    console.log('MongoDB Database connected!!')
+    logger.http('MongoDB Database connected!!')
 } catch (error) {
-    throw error
+    next()
 }
